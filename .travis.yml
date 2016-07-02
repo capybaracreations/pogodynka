@@ -1,0 +1,19 @@
+language: android
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-23.0.2
+  - android-23
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+deploy:
+  provider: releases
+  api_key: $OUATH_KEY
+  file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/app-debug.apk
+  skip_cleanup: true
+  on:
+    tags: true
+script:
+- "./gradlew clean build"
