@@ -18,6 +18,8 @@ public class SingleCityHolder {
 
     private WeatherListing weatherListing;
 
+    private SingleCityHolder(){}
+
     public SingleCityHolder(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
