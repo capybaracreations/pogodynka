@@ -53,12 +53,19 @@
                 custom:pb_colorError="@color/red_error" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <com.baoyz.widget.PullRefreshLayout
             android:background="@color/background"
-            android:id="@+id/recyclerView"
-            android:scrollbars="vertical"
+            android:id="@+id/pullRefreshLayout"
+            app:refreshType="material"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:background="@color/background"
+                android:id="@+id/recyclerView"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.baoyz.widget.PullRefreshLayout>
 
     </LinearLayout>
 </RelativeLayout>

@@ -1,18 +1,22 @@
 package com.patrykkrawczyk.pogodynka;
 
 import android.app.ActionBar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.swipe.util.Attributes;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.DimEffect;
@@ -41,7 +45,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Patryk Krawczyk on 02.07.2016.
  */
-public class MainActivity extends AppCompatActivity implements Callback<AutoCompleteResult>, SweetSheet.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements Callback<AutoCompleteResult>, SweetSheet.OnMenuItemClickListener, PullRefreshLayout.OnRefreshListener {
 
 
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.searchButton) ActionProcessButton searchButton;
     @BindView(R.id.searchBox)    MaterialEditText searchBox;
+    @BindView(R.id.pullRefreshLayout) PullRefreshLayout pullRefreshLayout;
 
     private Adapter adapter;
     private LayoutManager layoutManager;
@@ -79,10 +84,13 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     }
 
     private void initializeRecyclerView() {
+        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MyAdapter(cities);
+
+        adapter = new MyAdapter(this, cities);
+        ((MyAdapter) adapter).setMode(Attributes.Mode.Single);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
         alphaAdapter.setDuration(ANIMATION_SPEED);
         ScaleInAnimationAdapter scaledAdapter = new ScaleInAnimationAdapter(alphaAdapter);
@@ -95,6 +103,21 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         itemAnimator.setMoveDuration(ANIMATION_SPEED);
         itemAnimator.setChangeDuration(ANIMATION_SPEED);
         recyclerView.setItemAnimator(itemAnimator);
+
+        pullRefreshLayout.setOnRefreshListener(this);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.e("ListView", "onScrollStateChanged");
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                // Could hide open views here if you wanted. //
+            }
+        });
 
     }
 
@@ -193,5 +216,11 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         //recyclerView.smoothScrollToPosition(newPosition);
 
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
+        cities.updateAll();
+        pullRefreshLayout.setRefreshing(false);
     }
 }
