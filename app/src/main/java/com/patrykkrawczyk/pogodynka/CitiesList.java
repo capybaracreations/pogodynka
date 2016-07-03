@@ -16,6 +16,14 @@ public class CitiesList {
         return size() - 1;
     }
 
+    public void remove(int index) {
+        cities.remove(index);
+    }
+
+    public void remove(SingleCityHolder singleCityHolder) {
+        cities.remove(singleCityHolder);
+    }
+
     public int size() {
         return cities.size();
     }
@@ -37,4 +45,5 @@ public class CitiesList {
     private void setStatus(int index, SingleCityHolder.Status status) {
         cities.get(index).setStatus(status);
     }
+
 }

@@ -84,7 +84,11 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     }
 
     private void initializeRecyclerView() {
-        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin1", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin2", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin3", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin4", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin5", "12", "23"));
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
