@@ -1,49 +1,29 @@
 package com.patrykkrawczyk.pogodynka;
 
-import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
-import com.patrykkrawczyk.pogodynka.listings.Listing;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
  */
-public class CitiesList {
-    private ArrayList<SingleCityHolder> cities = new ArrayList<>();
+public class CitiesList extends ArrayList<SingleCityHolder> {
 
-    public int add(SingleCityHolder singleCityHolder) {
-        cities.add(singleCityHolder);
-        return size() - 1;
-    }
+    public MyAdapter adapter;
 
-    public void remove(int index) {
-        cities.remove(index);
-    }
-
-    public void remove(SingleCityHolder singleCityHolder) {
-        cities.remove(singleCityHolder);
-    }
-
-    public int size() {
-        return cities.size();
-    }
-
-    public SingleCityHolder get(int i) {
-        return cities.get(i);
+    @Override
+    public boolean add(SingleCityHolder object) {
+        object.parent = this;
+        return super.add(object);
     }
 
     public void updateAll() {
-        for (int k = 0; k < cities.size(); k++) {
-            updateCity(k);
+        for (int k = 0; k < size(); k++) {
+            get(k).updateCity(k);
         }
     }
 
-    public void updateCity(int index) {
-        setStatus(index, SingleCityHolder.Status.UPDATING);
+    public void updateStatus(int index, SingleCityHolder.Status status) {
+        get(index).setStatus(status);
     }
-
-    private void setStatus(int index, SingleCityHolder.Status status) {
-        cities.get(index).setStatus(status);
-    }
-
 }

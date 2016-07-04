@@ -1,22 +1,56 @@
 package com.patrykkrawczyk.pogodynka;
 
-import com.mingle.entity.MenuEntity;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
-import com.patrykkrawczyk.pogodynka.listings.WeatherListing;
 
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
  */
-public class SingleCityHolder {
+public class SingleCityHolder implements ListingButtonInterface {
 
-    public static enum Status { NEW, UPDATING, STABLE };
-    private Status status = Status.NEW;
+
+    public CitiesList parent;
+
+    @Override
+    public void onClickFirstWeatherCell() {
+        setStatus(Status.DETAILS_ONE);
+    }
+
+    @Override
+    public void onClickSecondWeatherCell() {
+        setStatus(Status.DETAILS_TWO);
+    }
+
+    @Override
+    public void onClickThirdWeatherCell() {
+        setStatus(Status.DETAILS_THREE);
+    }
+
+    @Override
+    public void onClickRemoveButton() {
+
+    }
+
+    @Override
+    public void onClickBackButton() {
+        setStatus(Status.OVERALL);
+    }
+
+    public String getCityName() {
+        return name;
+    }
+
+    public String getCurrentTemperature() {
+        return temperature;
+    }
+
+    public enum Status { UPDATING, OVERALL, DETAILS_ONE, DETAILS_TWO, DETAILS_THREE };
+    private Status status = Status.OVERALL;
 
     private String name;
     private String latitude;
     private String longitude;
-
-    private WeatherListing weatherListing;
+    private String temperature = "10";
+    private CellInformation[] cells = new CellInformation[3];
 
     private SingleCityHolder(){}
 
@@ -38,12 +72,35 @@ public class SingleCityHolder {
         this.longitude = autoCompleteResultEntity.lon;
     }
 
-    public WeatherListing produceWeatherListing() {
-        if (weatherListing == null) weatherListing = new WeatherListing();
-        return weatherListing;
-    }
-
     public void setStatus(Status status) {
         this.status = status;
+        notifyAdapter();
+    }
+    public Status getStatus() {
+        return status;
+    }
+
+    public void updateCity() {
+        setStatus(Status.UPDATING);
+    }
+
+    public void finishUpdate() {
+        setStatus(Status.OVERALL);
+    }
+
+    private void notifyAdapter() {
+        parent.adapter.notifyItemChanged(this);
+    }
+
+    private static class CellInformation {
+        String day = "";
+        String date = "";
+        String weather = "";
+
+        public CellInformation(String day, String date, String weather) {
+            this.day = day;
+            this.date = date;
+            this.weather = weather;
+        }
     }
 }

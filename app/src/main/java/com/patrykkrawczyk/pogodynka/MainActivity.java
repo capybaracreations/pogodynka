@@ -1,7 +1,6 @@
 package com.patrykkrawczyk.pogodynka;
 
 import android.app.ActionBar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +23,6 @@ import com.mingle.sweetpick.RecyclerViewDelegate;
 import com.mingle.sweetpick.SweetSheet;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.AutoCompleteResult;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
-import com.patrykkrawczyk.pogodynka.listings.MyAdapter;
 import com.patrykkrawczyk.pogodynka.network.WunderGroundAutoComplete;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -84,11 +82,10 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     }
 
     private void initializeRecyclerView() {
-        cities.add(new SingleCityHolder("Szczecin1", "12", "23"));
-        cities.add(new SingleCityHolder("Szczecin2", "12", "23"));
-        cities.add(new SingleCityHolder("Szczecin3", "12", "23"));
-        cities.add(new SingleCityHolder("Szczecin4", "12", "23"));
-        cities.add(new SingleCityHolder("Szczecin5", "12", "23"));
+        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
+        cities.add(new SingleCityHolder("Paris", "22", "33"));
+        cities.add(new SingleCityHolder("Warsaw", "32", "43"));
+        cities.add(new SingleCityHolder("New York", "32", "43"));
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -213,10 +210,10 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     @Override
     public boolean onItemClick(int position, MenuEntity menuEntity) {
         SingleCityHolder singleCityHolder = new SingleCityHolder(autoCompleteLastResult.RESULTS.get(position));
-        int newPosition = cities.add(singleCityHolder);
+        cities.add(singleCityHolder);
 
         searchBox.setText("");
-        adapter.notifyItemInserted(newPosition);
+        //adapter.notifyItemInserted(newPosition);
         //recyclerView.smoothScrollToPosition(newPosition);
 
         return true;
@@ -226,5 +223,19 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     public void onRefresh() {
         cities.updateAll();
         pullRefreshLayout.setRefreshing(false);
+        //adapter.notifyItemRangeChanged(0, cities.size());
     }
+
+
+    @OnClick(R.id.updateFirst)
+    public void updateFirst(View view) {
+
+    }
+
+
+    @OnClick(R.id.newFirst)
+    public void newFirst(View view) {
+
+    }
+
 }
