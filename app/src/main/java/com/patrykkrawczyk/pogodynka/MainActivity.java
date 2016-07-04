@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.RelativeLayout;
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.daimajia.swipe.util.Attributes;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.DimEffect;
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     @BindView(R.id.searchBox)    MaterialEditText searchBox;
     @BindView(R.id.pullRefreshLayout) PullRefreshLayout pullRefreshLayout;
 
-    private Adapter adapter;
+    private MyAdapter adapter;
     private LayoutManager layoutManager;
     private SweetSheet autoCompleteDialog;
 
@@ -91,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
 
 
         adapter = new MyAdapter(this, cities);
-        ((MyAdapter) adapter).setMode(Attributes.Mode.Single);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
         alphaAdapter.setDuration(ANIMATION_SPEED);
         ScaleInAnimationAdapter scaledAdapter = new ScaleInAnimationAdapter(alphaAdapter);

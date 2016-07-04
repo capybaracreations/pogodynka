@@ -1,61 +1,77 @@
 package com.patrykkrawczyk.pogodynka;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.daimajia.swipe.SimpleSwipeListener;
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Patryk Krawczyk on 02.07.2016.
  */
-public class MyAdapter extends RecyclerSwipeAdapter<MyAdapter.SwipeViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.BaseViewHolder> {
 
-    public void notifyItemChanged(SingleCityHolder cityHolder) {
-        int position = cities.indexOf(cityHolder);
-        notifyItemChanged(position);
+    public static class DetailsViewHolder extends BaseViewHolder {
+        @BindView(R.id.currentTemperatureTextView) TextView currentTemperature;
+        @BindView(R.id.cityNameTextView) TextView cityName;
+
+        public DetailsViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 
-    public static class SwipeViewHolder extends RecyclerView.ViewHolder {
-        @Nullable @BindView(R.id.swipe) SwipeLayout swipeLayout;
-        @Nullable @BindView(R.id.removeListing) ImageView removeButton;
-        @Nullable @BindView(R.id.backListing) ImageView backButon;
-        @Nullable @BindView(R.id.firstWeatherCell) LinearLayout firstWeatherCell;
-        @Nullable @BindView(R.id.secondWeatherCell) LinearLayout secondWeatherCell;
-        @Nullable @BindView(R.id.thirdWeatherCell) LinearLayout thirdWeatherCell;
-        @Nullable @BindView(R.id.cityNameTextView) TextView cityName;
-        @Nullable @BindView(R.id.currentTemperatureTextView) TextView currentTemperature;
+    public static class UpdateViewHolder extends BaseViewHolder {
+        @BindView(R.id.cityNameTextView) TextView cityName;
 
-        SingleCityHolder singleCityHolder;
+        public UpdateViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
 
-        public SwipeViewHolder(View view) {
+    public static class OverallViewHolder extends BaseViewHolder {
+        @BindView(R.id.currentTemperatureTextView) TextView currentTemperature;
+        @BindView(R.id.cityNameTextView)  TextView     cityName;
+        @BindView(R.id.firstWeatherCell)  LinearLayout firstWeatherCell;
+        @BindView(R.id.secondWeatherCell) LinearLayout secondWeatherCell;
+        @BindView(R.id.thirdWeatherCell)  LinearLayout thirdWeatherCell;
+
+        public OverallViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-/*
-        @Optional @OnClick(R.id.secondWeatherCell)
-        public void onClickSecondWeatherCell(View view) {
-            buttonInterface.onClickSecondWeatherCell();
+        @OnClick(R.id.firstWeatherCell)
+        public void onClickFirstWeatherCell(View v) {
+            singleCityHolder.onClickFirstWeatherCell();
+        }
 
-        }*/
+        @OnClick(R.id.secondWeatherCell)
+        public void onClickSecondWeatherCell(View v) {
+            singleCityHolder.onClickSecondWeatherCell();
+        }
+
+        @OnClick(R.id.thirdWeatherCell)
+        public void onClickThirdWeatherCell(View v) {
+            singleCityHolder.onClickThirdWeatherCell();
+        }
+    }
+
+    public static class BaseViewHolder extends RecyclerView.ViewHolder {
+        SingleCityHolder singleCityHolder;
+
+        public BaseViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+
     }
 
     private Context context;
@@ -68,18 +84,18 @@ public class MyAdapter extends RecyclerSwipeAdapter<MyAdapter.SwipeViewHolder> {
     }
 
     @Override
-    public SwipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layout = 0;
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        BaseViewHolder viewHolder = null;
 
         switch (SingleCityHolder.Status.values()[viewType]) {
             case DETAILS_ONE :
             case DETAILS_TWO :
-            case DETAILS_THREE : layout = R.layout.details_card; break;
-            case OVERALL: layout = R.layout.overall_card; break;
-            default : layout = R.layout.updating_card; break;
+            case DETAILS_THREE : viewHolder = new DetailsViewHolder(LayoutInflater.from(context).inflate(R.layout.details_card, parent, false));
+            case OVERALL: viewHolder = new OverallViewHolder(LayoutInflater.from(context).inflate(R.layout.overall_card, parent, false));
+            default : viewHolder = new UpdateViewHolder(LayoutInflater.from(context).inflate(R.layout.update_card, parent, false));
         }
 
-        return new SwipeViewHolder(LayoutInflater.from(context).inflate(layout, parent, false));
+        return viewHolder;
     }
 
     @Override
@@ -88,79 +104,19 @@ public class MyAdapter extends RecyclerSwipeAdapter<MyAdapter.SwipeViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final SwipeViewHolder viewHolder, final int position) {
-        if (viewHolder.swipeLayout != null) {
-            viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
-            viewHolder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
-                @Override
-                public void onOpen(SwipeLayout layout) {
-                    if (viewHolder.removeButton != null)
-                        YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(viewHolder.removeButton);
-                    else if (viewHolder.backButon != null)
-                        YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(viewHolder.backButon);
-                }
-            });
+    public void onBindViewHolder(final BaseViewHolder baseViewHolder, final int position) {
+        baseViewHolder.singleCityHolder = cities.get(position);
 
-            mItemManger.bindView(viewHolder.itemView, position);
-        }
-
-        viewHolder.singleCityHolder = cities.get(position);
-
-        if (viewHolder.singleCityHolder.getStatus() == SingleCityHolder.Status.OVERALL) {
-            viewHolder.firstWeatherCell.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.singleCityHolder.onClickFirstWeatherCell();
-                    notifyItemChanged(position);
-                }
-            });
-
-            viewHolder.secondWeatherCell.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.singleCityHolder.onClickSecondWeatherCell();
-                    notifyItemChanged(position);
-                }
-            });
-
-            viewHolder.thirdWeatherCell.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.singleCityHolder.onClickThirdWeatherCell();
-                    notifyItemChanged(position);
-                }
-            });
-
-            viewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.singleCityHolder.onClickRemoveButton();
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                    mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-                    cities.remove(position);
-                    //notifyItemRemoved(position);
-                    //notifyItemRangeChanged(position, cities.size());
-                    notifyDataSetChanged();
-                    mItemManger.closeAllItems();
-                }
-            });
-
-            viewHolder.cityName.setText(viewHolder.singleCityHolder.getCityName());
-            viewHolder.currentTemperature.setText(viewHolder.singleCityHolder.getCurrentTemperature());
-        } else if (viewHolder.singleCityHolder.getStatus() != SingleCityHolder.Status.UPDATING) {
-            viewHolder.backButon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.singleCityHolder.onClickBackButton();
-                    notifyItemChanged(position);
-                    Toast.makeText(context, "Backed", Toast.LENGTH_SHORT).show();
-                    mItemManger.removeShownLayouts(viewHolder.swipeLayout);
-                    notifyDataSetChanged();
-                    mItemManger.closeAllItems();
-                }
-            });
+        if (baseViewHolder instanceof OverallViewHolder) {
+            OverallViewHolder viewHolder = (OverallViewHolder) baseViewHolder;
+            viewHolder.cityName.setText(baseViewHolder.singleCityHolder.getCityName());
+            viewHolder.currentTemperature.setText(baseViewHolder.singleCityHolder.getCurrentTemperature());
+        } else if (baseViewHolder instanceof UpdateViewHolder) {
+            UpdateViewHolder viewHolder = (UpdateViewHolder) baseViewHolder;
+            viewHolder.cityName.setText(baseViewHolder.singleCityHolder.getCityName());
         } else {
-            viewHolder.cityName.setText(viewHolder.singleCityHolder.getCityName());
+            DetailsViewHolder viewHolder = (DetailsViewHolder) baseViewHolder;
+            //viewHolder.cityName.setText(baseViewHolder.singleCityHolder.getCityName());
         }
 
     }
@@ -170,9 +126,8 @@ public class MyAdapter extends RecyclerSwipeAdapter<MyAdapter.SwipeViewHolder> {
         return cities.size();
     }
 
-    @Override
-    public int getSwipeLayoutResourceId(int position) {
-        return R.id.swipe;
+    public void notifyItemChanged(SingleCityHolder cityHolder) {
+        int position = cities.indexOf(cityHolder);
+        notifyItemChanged(position);
     }
-
 }

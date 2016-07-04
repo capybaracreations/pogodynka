@@ -76,6 +76,7 @@ public class SingleCityHolder implements ListingButtonInterface {
         this.status = status;
         notifyAdapter();
     }
+
     public Status getStatus() {
         return status;
     }
