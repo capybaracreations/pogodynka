@@ -19,7 +19,7 @@ public class CitiesList extends ArrayList<SingleCityHolder> {
 
     public void updateAll() {
         for (int k = 0; k < size(); k++) {
-            get(k).updateCity(k);
+            get(k).updateCity();
         }
     }
 
