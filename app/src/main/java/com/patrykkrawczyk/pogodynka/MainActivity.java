@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.dift.ui.SwipeToAction;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     private CitiesList cities = new CitiesList();
     private ArrayList<MenuEntity> autoCompleteListings = new ArrayList<>();
     private AutoCompleteResult autoCompleteLastResult;
-
+    private SwipeToAction swipeToAction;
 
 
     @Override
@@ -80,13 +81,9 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     }
 
     private void initializeRecyclerView() {
-        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
-        cities.add(new SingleCityHolder("Paris", "22", "33"));
-        cities.add(new SingleCityHolder("Warsaw", "32", "43"));
-        cities.add(new SingleCityHolder("New York", "32", "43"));
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setHasFixedSize(true);
 
         adapter = new MyAdapter(this, cities);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
@@ -117,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
             }
         });
 
+        swipeToAction = new SwipeToAction(recyclerView, adapter);
+
+
+        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
+        cities.add(new SingleCityHolder("Paris", "22", "33"));
+        //cities.add(new SingleCityHolder("Warsaw", "32", "43"));
+        //cities.add(new SingleCityHolder("New York", "32", "43"));
     }
 
     private void initializeAutoCompleteDialog() {

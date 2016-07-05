@@ -12,17 +12,17 @@ public class SingleCityHolder implements ListingButtonInterface {
 
     @Override
     public void onClickFirstWeatherCell() {
-        setStatus(Status.DETAILS_ONE);
+        //setStatus(Status.DETAILS_ONE);
     }
 
     @Override
     public void onClickSecondWeatherCell() {
-        setStatus(Status.DETAILS_TWO);
+        //setStatus(Status.DETAILS_TWO);
     }
 
     @Override
     public void onClickThirdWeatherCell() {
-        setStatus(Status.DETAILS_THREE);
+        //setStatus(Status.DETAILS_THREE);
     }
 
     @Override
