@@ -43,9 +43,9 @@ dependencies {
     compile 'com.daimajia.androidanimations:library:1.1.3@aar' // shake animation for search box
     compile 'com.github.zzz40500:AndroidSweetSheet:1.1.0' // auto complete dialog
     compile 'jp.wasabeef:recyclerview-animators:2.2.3' // animation when adding do RV or scrolling RV
-    compile 'com.baoyz.pullrefreshlayout:library:1.2.0' // pull to refresh in RV
-    compile "com.daimajia.swipelayout:library:1.2.0@aar" // item swipe to delete
     compile 'com.wang.avi:library:1.0.5' // update indicator
+    compile 'com.malinskiy:superrecyclerview:1.1.4' // pull to refresh, swipe for menu
+    compile 'me.grantland:autofittextview:0.2.+' // autofit for textviews
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'

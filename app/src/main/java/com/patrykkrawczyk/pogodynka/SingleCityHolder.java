@@ -1,46 +1,46 @@
 package com.patrykkrawczyk.pogodynka;
 
+import android.view.View;
+
 import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
 
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
  */
-public class SingleCityHolder implements ListingButtonInterface {
+public class SingleCityHolder implements ListingButtonInterface, BehindButtonsInterface {
 
 
     public CitiesList parent;
 
     @Override
-    public void onClickFirstWeatherCell() {
+    public void onClickFirstWeatherCell(View view) {
         setStatus(Status.DETAILS_ONE);
+        notifyAdapter();
     }
 
     @Override
-    public void onClickSecondWeatherCell() {
+    public void onClickSecondWeatherCell(View view) {
         setStatus(Status.DETAILS_TWO);
+        notifyAdapter();
     }
 
     @Override
-    public void onClickThirdWeatherCell() {
+    public void onClickThirdWeatherCell(View view) {
         setStatus(Status.DETAILS_THREE);
+        notifyAdapter();
     }
 
     @Override
-    public void onClickRemoveButton() {
-
+    public void onClickRefreshButton(View view) {
+        setStatus(Status.DETAILS_THREE);
+        notifyAdapter();
+        parent.adapter.displaySnackbar(getCityName() + " updated.", null, null);
     }
 
     @Override
-    public void onClickBackButton() {
-        setStatus(Status.OVERALL);
-    }
-
-    public String getCityName() {
-        return name;
-    }
-
-    public String getCurrentTemperature() {
-        return temperature;
+    public void onClickDeleteButton(View view) {
+        parent.remove(this);
+        notifyAdapter();
     }
 
     public enum Status { UPDATING, OVERALL, DETAILS_ONE, DETAILS_TWO, DETAILS_THREE };
@@ -76,6 +76,15 @@ public class SingleCityHolder implements ListingButtonInterface {
         this.status = status;
         notifyAdapter();
     }
+
+    public String getCityName() {
+        return name;
+    }
+
+    public String getCurrentTemperature() {
+        return temperature;
+    }
+
     public Status getStatus() {
         return status;
     }
