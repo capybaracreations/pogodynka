@@ -6,7 +6,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import co.dift.ui.SwipeToAction;
 
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
@@ -41,7 +40,15 @@ public class CitiesList extends ArrayList<SingleCityHolder>{
 
     public void updateAll() {
         for (int k = 0; k < size(); k++) {
-            get(k).updateCity();
+            updateOne(k);
         }
+    }
+
+    private void updateOne(int index) {
+        get(index).onClickRefreshButton(null);
+    }
+
+    private void updateOne(SingleCityHolder object) {
+        updateOne(indexOf(object));
     }
 }

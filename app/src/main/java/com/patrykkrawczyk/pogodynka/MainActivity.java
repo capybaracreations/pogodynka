@@ -1,6 +1,7 @@
 package com.patrykkrawczyk.pogodynka;
 
 import android.app.ActionBar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.malinskiy.superrecyclerview.swipe.SwipeItemManagerInterface;
+import com.malinskiy.superrecyclerview.swipe.SwipeLayout;
 import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.DimEffect;
 import com.mingle.sweetpick.RecyclerViewDelegate;
@@ -25,11 +28,11 @@ import com.patrykkrawczyk.pogodynka.network.WunderGroundAutoComplete;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import co.dift.ui.SwipeToAction;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
@@ -42,16 +45,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Patryk Krawczyk on 02.07.2016.
  */
-public class MainActivity extends AppCompatActivity implements Callback<AutoCompleteResult>, SweetSheet.OnMenuItemClickListener, PullRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements Callback<AutoCompleteResult>, SweetSheet.OnMenuItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
 
     private final int ANIMATION_SPEED = 500;
 
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
     @BindView(R.id.searchButton) ActionProcessButton searchButton;
     @BindView(R.id.searchBox)    MaterialEditText searchBox;
-    @BindView(R.id.pullRefreshLayout) PullRefreshLayout pullRefreshLayout;
 
     private MyAdapter adapter;
     private LayoutManager layoutManager;
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     private CitiesList cities = new CitiesList();
     private ArrayList<MenuEntity> autoCompleteListings = new ArrayList<>();
     private AutoCompleteResult autoCompleteLastResult;
-    private SwipeToAction swipeToAction;
 
 
     @Override
@@ -83,44 +84,23 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     private void initializeRecyclerView() {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
 
         adapter = new MyAdapter(this, cities);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(adapter);
         alphaAdapter.setDuration(ANIMATION_SPEED);
         ScaleInAnimationAdapter scaledAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         scaledAdapter.setDuration(ANIMATION_SPEED);
+        adapter.setMode(SwipeItemManagerInterface.Mode.Single);
         recyclerView.setAdapter(scaledAdapter);
 
-        RecyclerView.ItemAnimator itemAnimator = new LandingAnimator();
-        itemAnimator.setAddDuration(ANIMATION_SPEED);
-        itemAnimator.setRemoveDuration(ANIMATION_SPEED);
-        itemAnimator.setMoveDuration(ANIMATION_SPEED);
-        itemAnimator.setChangeDuration(ANIMATION_SPEED);
-        recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setRefreshListener(this);
+        recyclerView.setRefreshingColorResources(R.color.leftIcon, R.color.leftIcon, R.color.leftIcon, R.color.leftIcon);
 
-        pullRefreshLayout.setOnRefreshListener(this);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                Log.e("ListView", "onScrollStateChanged");
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                // Could hide open views here if you wanted. //
-            }
-        });
-
-        swipeToAction = new SwipeToAction(recyclerView, adapter);
-
-
-        cities.add(new SingleCityHolder("Szczecin", "12", "23"));
+        cities.add(new SingleCityHolder("San Francisco", "12", "23"));
         cities.add(new SingleCityHolder("Paris", "22", "33"));
-        //cities.add(new SingleCityHolder("Warsaw", "32", "43"));
-        //cities.add(new SingleCityHolder("New York", "32", "43"));
+        cities.add(new SingleCityHolder("Warsaw", "32", "43"));
+        cities.add(new SingleCityHolder("New York", "32", "43"));
+        adapter.notifyDataSetChanged();
     }
 
     private void initializeAutoCompleteDialog() {
@@ -204,7 +184,11 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         if (autoCompleteDialog.isShow())
             autoCompleteDialog.dismiss();
         else {
-            super.onBackPressed();
+            List<Integer> list = adapter.getOpenItems();
+            if (list.size() > 1 || (list.size() == 1 && list.get(0) != -1))
+                adapter.closeAllExcept(null);
+            else
+                super.onBackPressed();
         }
     }
 
@@ -214,29 +198,20 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         cities.add(singleCityHolder);
 
         searchBox.setText("");
+        searchButton.setProgress(0);
         //adapter.notifyItemInserted(newPosition);
         //recyclerView.smoothScrollToPosition(newPosition);
 
         return true;
     }
 
+
     @Override
     public void onRefresh() {
+        adapter.closeAllExcept(null);
         cities.updateAll();
-        pullRefreshLayout.setRefreshing(false);
-        //adapter.notifyItemRangeChanged(0, cities.size());
+        adapter.notifyItemRangeChanged(0, cities.size());
+        adapter.displaySnackbar("Refreshing all.", null, null);
+        recyclerView.setRefreshing(false);
     }
-
-
-    @OnClick(R.id.updateFirst)
-    public void updateFirst(View view) {
-
-    }
-
-
-    @OnClick(R.id.newFirst)
-    public void newFirst(View view) {
-
-    }
-
 }
