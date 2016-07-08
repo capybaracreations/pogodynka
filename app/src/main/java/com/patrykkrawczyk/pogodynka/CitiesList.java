@@ -1,10 +1,11 @@
 package com.patrykkrawczyk.pogodynka;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
+import com.patrykkrawczyk.pogodynka.listings.MyAdapter;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -18,8 +19,9 @@ public class CitiesList extends ArrayList<SingleCityHolder>{
     public boolean add(SingleCityHolder object) {
         object.parent = this;
         super.add(object);
-        adapter.notifyItemInserted(size()-1);
-        adapter.displaySnackbar(object.getCityName() + " added.", null, null);
+        //adapter.notifyItemInserted(size()-1);
+        //adapter.displaySnackbar(object.getCityName() + " added.", null, null);
+        object.update();
         return true;
     }
 
@@ -45,7 +47,7 @@ public class CitiesList extends ArrayList<SingleCityHolder>{
     }
 
     private void updateOne(int index) {
-        get(index).onClickRefreshButton(null);
+        get(index).update();
     }
 
     private void updateOne(SingleCityHolder object) {

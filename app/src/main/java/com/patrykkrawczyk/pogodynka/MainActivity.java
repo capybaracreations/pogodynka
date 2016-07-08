@@ -5,9 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -17,13 +15,14 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.malinskiy.superrecyclerview.swipe.SwipeItemManagerInterface;
-import com.malinskiy.superrecyclerview.swipe.SwipeLayout;
 import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.DimEffect;
 import com.mingle.sweetpick.RecyclerViewDelegate;
 import com.mingle.sweetpick.SweetSheet;
+import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.AutoCompleteResult;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
+import com.patrykkrawczyk.pogodynka.listings.MyAdapter;
 import com.patrykkrawczyk.pogodynka.network.WunderGroundAutoComplete;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -35,7 +34,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,10 +94,6 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         recyclerView.setRefreshListener(this);
         recyclerView.setRefreshingColorResources(R.color.leftIcon, R.color.leftIcon, R.color.leftIcon, R.color.leftIcon);
 
-        cities.add(new SingleCityHolder("San Francisco", "12", "23"));
-        cities.add(new SingleCityHolder("Paris", "22", "33"));
-        cities.add(new SingleCityHolder("Warsaw", "32", "43"));
-        cities.add(new SingleCityHolder("New York", "32", "43"));
         adapter.notifyDataSetChanged();
     }
 

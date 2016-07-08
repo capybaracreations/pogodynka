@@ -27,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                         <LinearLayout
+                            android:paddingRight="9dp"
                             android:paddingLeft="9dp"
                             android:layout_weight="2"
                             android:orientation="horizontal"
@@ -45,11 +46,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
                             <LinearLayout
-                                android:paddingRight="9dp"
                                 android:orientation="horizontal"
-                                android:layout_weight="2"
+                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
+                                <Space
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
+                                <Space
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
                                 <ImageView
                                     android:layout_weight="1"
                                     android:id="@+id/refreshButton"
@@ -97,6 +105,8 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindFirstCellDay"
                                                 android:textSize="26sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="MON"
@@ -106,6 +116,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent" />
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindFirstCellDate"
                                                 android:textSize="16sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="01.07"
@@ -128,6 +140,8 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindSecondCellDay"
                                                 android:textSize="26sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="TUE"
@@ -137,6 +151,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent" />
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindSecondCellDate"
                                                 android:textSize="16sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="02.07"
@@ -159,6 +175,8 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindThirdCellDay"
                                                 android:textSize="26sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="WED"
@@ -168,6 +186,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent" />
                                             <me.grantland.widget.AutofitTextView
+                                                android:textStyle="italic"
+                                                android:id="@+id/behindThirdCellDate"
                                                 android:textSize="16sp"
                                                 autofit:minTextSize="8sp"
                                                 android:text="03.07"

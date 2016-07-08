@@ -1,4 +1,4 @@
-package com.patrykkrawczyk.pogodynka;
+package com.patrykkrawczyk.pogodynka.listings;
 
 import android.view.View;
 
