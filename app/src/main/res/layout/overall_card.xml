@@ -82,7 +82,6 @@
                             android:layout_height="match_parent" />
                     </LinearLayout>
                 </LinearLayout>
-
             </LinearLayout>
             <View
                 android:visibility="gone"

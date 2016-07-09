@@ -127,7 +127,7 @@ public class WeatherData {
 
     public void updateFromApi() {
         wunderHandler.updateFromApi();
-        forecastIOHandler.updateFromApi();
+        //forecastIOHandler.updateFromApi();
     }
 
     private WeatherData() {}

@@ -27,6 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:layout_weight="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -36,26 +38,50 @@
                     android:paddingLeft="9dp"
                     android:textSize="26sp"
                     autofit:minTextSize="8sp"
-                    android:text="Szczecin"
+                    android:text="Szczecin, Poland"
                     android:id="@+id/cityNameTextView"
-                    android:gravity="center_vertical"
+                    android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                <me.grantland.widget.AutofitTextView
-                    android:textColor="@color/cardTitleText"
-                    android:paddingRight="9dp"
-                    android:textSize="30sp"
-                    autofit:minTextSize="8sp"
-                    android:text="24°C"
-                    android:id="@+id/currentTemperatureTextView"
-                    android:gravity="center|right"
-                    android:singleLine="true"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
+                    android:layout_height="match_parent">
+                    <Space
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:padding="4dp"
+                            android:src="@drawable/clear"
+                            android:id="@+id/currentConditionsImageView"
+                            android:scaleType="centerInside"
+                            android:gravity="center"
+                            android:layout_weight="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <me.grantland.widget.AutofitTextView
+                            android:textColor="@color/cardTitleText"
+                            android:paddingRight="9dp"
+                            android:textSize="30sp"
+                            autofit:minTextSize="8sp"
+                            android:text="24°C"
+                            android:id="@+id/currentTemperatureTextView"
+                            android:gravity="center|right"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:visibility="gone"
@@ -65,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"/>
             <LinearLayout
+                android:paddingBottom="4dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

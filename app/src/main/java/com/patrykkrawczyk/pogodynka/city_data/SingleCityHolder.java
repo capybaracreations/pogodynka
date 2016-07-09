@@ -9,10 +9,11 @@ import com.patrykkrawczyk.pogodynka.weather.WeatherData;
  */
 public class SingleCityHolder {
 
+    public int dayDetailsPicked = 0;
     public CitiesList parent;
     public ListingButtonsClickHandler listingButtonsClickHandler = new ListingButtonsClickHandler(this);
 
-    public enum Status { NEW, UPDATING, OVERALL, DETAILS_ONE, DETAILS_TWO, DETAILS_THREE };
+    public enum Status { NEW, UPDATING, OVERALL, DETAILS };
     private Status status = Status.NEW;
 
     private String name;

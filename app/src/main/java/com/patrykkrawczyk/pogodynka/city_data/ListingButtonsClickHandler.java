@@ -21,17 +21,20 @@ public class ListingButtonsClickHandler implements ListingButtonInterface, Behin
 
     @Override
     public void onClickFirstWeatherCell(View view) {
-        singleCityHolder.setStatus(Status.DETAILS_ONE);
+        singleCityHolder.setStatus(Status.DETAILS);
+        singleCityHolder.dayDetailsPicked = 0;
     }
 
     @Override
     public void onClickSecondWeatherCell(View view) {
-        singleCityHolder.setStatus(Status.DETAILS_TWO);
+        singleCityHolder.setStatus(Status.DETAILS);
+        singleCityHolder.dayDetailsPicked = 1;
     }
 
     @Override
     public void onClickThirdWeatherCell(View view) {
-        singleCityHolder.setStatus(Status.DETAILS_THREE);
+        singleCityHolder.setStatus(Status.DETAILS);
+        singleCityHolder.dayDetailsPicked = 2;
     }
 
     @Override

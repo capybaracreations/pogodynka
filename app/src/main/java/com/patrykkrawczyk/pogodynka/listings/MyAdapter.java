@@ -29,15 +29,6 @@ import me.grantland.widget.AutofitTextView;
  */
 public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
 
-    public static class DetailsViewHolder extends BaseViewHolder {
-        @BindView(R.id.cityNameTextView) AutofitTextView cityName;
-
-        public DetailsViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
     public static class UpdateViewHolder extends BaseViewHolder {
         @BindView(R.id.cityNameTextView) TextView cityName;
 
@@ -45,6 +36,17 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             super(view);
             ButterKnife.bind(this, view);
             swipeLayout.setSwipeEnabled(false);
+        }
+    }
+
+    public static class DetailsViewHolder extends BaseViewHolder {
+        @BindView(R.id.cityNameTextView)             AutofitTextView cityName;
+        @BindView(R.id.currentConditionsImageView)   ImageView       currentConditions;
+        @BindView(R.id.currentTemperatureTextView)   AutofitTextView currentTemperature;
+
+        public DetailsViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
     }
 
@@ -128,11 +130,9 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
         BaseViewHolder viewHolder = null;
 
         switch (SingleCityHolder.Status.values()[viewType]) {
-            case DETAILS_ONE :
-            case DETAILS_TWO :
-            case DETAILS_THREE : viewHolder = new DetailsViewHolder(LayoutInflater.from(context).inflate(R.layout.swipe_layout_details, parent, false)); break;
+            case DETAILS: viewHolder = new DetailsViewHolder(LayoutInflater.from(context).inflate(R.layout.swipe_layout_details, parent, false)); break;
             case OVERALL: viewHolder = new OverallViewHolder(LayoutInflater.from(context).inflate(R.layout.swipe_layout_overall, parent, false)); break;
-            default : viewHolder = new UpdateViewHolder(LayoutInflater.from(context).inflate(R.layout.swipe_layout_updating, parent, false)); break;
+            default :     viewHolder = new UpdateViewHolder(LayoutInflater.from(context).inflate(R.layout.swipe_layout_updating, parent, false)); break;
         }
 
         return viewHolder;
@@ -199,18 +199,27 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
                 color = getColorFromTemperature(day.getAverageTemperature());
                 viewHolder.secondWeatherCellTemperature.setTextColor(color);
                 viewHolder.secondWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
+                viewHolder.secondWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.secondWeatherCellDate.setText(day.getDate());
 
                 day = baseViewHolder.city.data.averagedDays.get(2);
                 color = getColorFromTemperature(day.getAverageTemperature());
                 viewHolder.thirdWeatherCellTemperature.setTextColor(color);
                 viewHolder.thirdWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
+                viewHolder.thirdWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.thirdWeatherCellDate.setText(day.getDate());
 
             } else {
                 DetailsViewHolder viewHolder = (DetailsViewHolder) baseViewHolder;
+                day = baseViewHolder.city.data.averagedDays.get(baseViewHolder.city.dayDetailsPicked);
+
                 viewHolder.cityName.setText(baseViewHolder.city.getCityName());
-                //viewHolder.behindCityName.setText(baseViewHolder.singleCityHolder.getCityName());
+                viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
+                viewHolder.currentTemperature.setText(day.getAverageTemperatureString() + "°C");
+                color = getColorFromTemperature(day.getAverageTemperature());
+                viewHolder.currentTemperature.setTextColor(color);
+
+
             }
         }
 

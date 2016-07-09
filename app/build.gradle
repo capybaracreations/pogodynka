@@ -46,6 +46,7 @@ dependencies {
     compile 'com.wang.avi:library:1.0.5' // update indicator
     compile 'com.malinskiy:superrecyclerview:1.1.4' // pull to refresh, swipe for menu
     compile 'me.grantland:autofittextview:0.2.+' // autofit for textviews
+    compile 'com.diogobernardino:williamchart:2.2' // charting lib, instead of mpandroidchart
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'
