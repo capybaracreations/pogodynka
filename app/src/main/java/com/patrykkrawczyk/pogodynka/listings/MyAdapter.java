@@ -2,11 +2,13 @@ package com.patrykkrawczyk.pogodynka.listings;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malinskiy.superrecyclerview.swipe.BaseSwipeAdapter;
@@ -14,6 +16,7 @@ import com.patrykkrawczyk.pogodynka.CitiesList;
 import com.patrykkrawczyk.pogodynka.R;
 import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
 import com.patrykkrawczyk.pogodynka.city_data.SingleDay;
+import com.patrykkrawczyk.pogodynka.city_data.SingleHour;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,15 +50,16 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
 
     public static class OverallViewHolder extends BaseViewHolder {
         @BindView(R.id.cityNameTextView)             AutofitTextView cityName;
+        @BindView(R.id.currentConditionsImageView)   ImageView       currentConditions;
         @BindView(R.id.currentTemperatureTextView)   AutofitTextView currentTemperature;
         @BindView(R.id.firstWeatherCellTemperature)  AutofitTextView firstWeatherCellTemperature;
-        @BindView(R.id.firstWeatherCellDay)          AutofitTextView firstWeatherCellDay;
+        @BindView(R.id.firstWeatherCellConditions)   ImageView       firstWeatherCellConditions;
         @BindView(R.id.firstWeatherCellDate)         AutofitTextView firstWeatherCellDate;
         @BindView(R.id.secondWeatherCellTemperature) AutofitTextView secondWeatherCellTemperature;
-        @BindView(R.id.secondWeatherCellDay)         AutofitTextView secondWeatherCellDay;
+        @BindView(R.id.secondWeatherCellConditions)  ImageView       secondWeatherCellConditions;
         @BindView(R.id.secondWeatherCellDate)        AutofitTextView secondWeatherCellDate;
         @BindView(R.id.thirdWeatherCellTemperature)  AutofitTextView thirdWeatherCellTemperature;
-        @BindView(R.id.thirdWeatherCellDay)          AutofitTextView thirdWeatherCellDay;
+        @BindView(R.id.thirdWeatherCellConditions)   ImageView       thirdWeatherCellConditions;
         @BindView(R.id.thirdWeatherCellDate)         AutofitTextView thirdWeatherCellDate;
 
 
@@ -151,25 +155,25 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             viewHolder.cityName.setText(baseViewHolder.city.getCityName());
         } else {
             baseViewHolder.behindCityName.setText(baseViewHolder.city.getCityName());
-            baseViewHolder.behindButtonsInterface = baseViewHolder.city;
-            baseViewHolder.listingButtonInterface = baseViewHolder.city;
+            baseViewHolder.behindButtonsInterface = baseViewHolder.city.listingButtonsClickHandler;
+            baseViewHolder.listingButtonInterface = baseViewHolder.city.listingButtonsClickHandler;
 
-            SingleDay day = baseViewHolder.city.days.get(0);
-            int color = getColorFromTemperature(day.getAverage());
+            SingleDay day = baseViewHolder.city.data.averagedDays.get(0);
+            int color = getColorFromTemperature(day.getAverageTemperature());
             baseViewHolder.behindFirstCellDay.setTextColor(color);
             baseViewHolder.behindFirstCellDate.setTextColor(color);
             baseViewHolder.behindFirstCellDay.setText(day.getDay());
             baseViewHolder.behindFirstCellDate.setText(day.getDate());
 
-            day = baseViewHolder.city.days.get(1);
-            color = getColorFromTemperature(day.getAverage());
+            day = baseViewHolder.city.data.averagedDays.get(1);
+            color = getColorFromTemperature(day.getAverageTemperature());
             baseViewHolder.behindSecondCellDay.setTextColor(color);
             baseViewHolder.behindSecondCellDate.setTextColor(color);
             baseViewHolder.behindSecondCellDay.setText(day.getDay());
             baseViewHolder.behindSecondCellDate.setText(day.getDate());
 
-            day = baseViewHolder.city.days.get(2);
-            color = getColorFromTemperature(day.getAverage());
+            day = baseViewHolder.city.data.averagedDays.get(2);
+            color = getColorFromTemperature(day.getAverageTemperature());
             baseViewHolder.behindThirdCellDay.setTextColor(color);
             baseViewHolder.behindThirdCellDate.setTextColor(color);
             baseViewHolder.behindThirdCellDay.setText(day.getDay());
@@ -178,30 +182,29 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             if (baseViewHolder instanceof OverallViewHolder) {
                 OverallViewHolder viewHolder = (OverallViewHolder) baseViewHolder;
                 viewHolder.cityName.setText(baseViewHolder.city.getCityName());
+                viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(viewHolder.city.data.currentConditions));
 
-                viewHolder.currentTemperature.setText(baseViewHolder.city.getCurrentTemperature() + "°C");
-                color = getColorFromTemperature(baseViewHolder.city.getCurrentTemperature());
+                viewHolder.currentTemperature.setText(String.format("%.0f", baseViewHolder.city.data.currentTemperature) + "°C");
+                color = getColorFromTemperature(baseViewHolder.city.data.currentTemperature);
                 viewHolder.currentTemperature.setTextColor(color);
 
-                day = baseViewHolder.city.days.get(0);
-                color = getColorFromTemperature(day.getAverage());
+                day = baseViewHolder.city.data.averagedDays.get(0);
+                color = getColorFromTemperature(day.getAverageTemperature());
                 viewHolder.firstWeatherCellTemperature.setTextColor(color);
-                viewHolder.firstWeatherCellTemperature.setText(day.getAverage() + "°C");
-                viewHolder.firstWeatherCellDay.setText(day.getDay());
+                viewHolder.firstWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
+                viewHolder.firstWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.firstWeatherCellDate.setText(day.getDate());
 
-                day = baseViewHolder.city.days.get(1);
-                color = getColorFromTemperature(day.getAverage());
+                day = baseViewHolder.city.data.averagedDays.get(1);
+                color = getColorFromTemperature(day.getAverageTemperature());
                 viewHolder.secondWeatherCellTemperature.setTextColor(color);
-                viewHolder.secondWeatherCellTemperature.setText(day.getAverage() + "°C");
-                viewHolder.secondWeatherCellDay.setText(day.getDay());
+                viewHolder.secondWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
                 viewHolder.secondWeatherCellDate.setText(day.getDate());
 
-                day = baseViewHolder.city.days.get(2);
-                color = getColorFromTemperature(day.getAverage());
+                day = baseViewHolder.city.data.averagedDays.get(2);
+                color = getColorFromTemperature(day.getAverageTemperature());
                 viewHolder.thirdWeatherCellTemperature.setTextColor(color);
-                viewHolder.thirdWeatherCellTemperature.setText(day.getAverage() + "°C");
-                viewHolder.thirdWeatherCellDay.setText(day.getDay());
+                viewHolder.thirdWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
                 viewHolder.thirdWeatherCellDate.setText(day.getDate());
 
             } else {
@@ -211,6 +214,23 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             }
         }
 
+    }
+
+    private Drawable getDrawableFromConditions(SingleHour.Conditions conditions) {
+        int resource;
+
+        switch (conditions) {
+            case CLEAR  : resource = R.drawable.clear;  break;
+            case CLOUDY : resource = R.drawable.cloudy; break;
+            case RAIN   : resource = R.drawable.rain;   break;
+            case FOG    : resource = R.drawable.fog;    break;
+            case SNOW   : resource = R.drawable.snow;   break;
+            case STORM  : resource = R.drawable.storm;   break;
+            default     : resource = R.drawable.clear;  break;
+        }
+
+        Drawable drawable = context.getResources().getDrawable(resource);
+        return drawable;
     }
 
     public void displaySnackbar(String text, String actionName, View.OnClickListener action) {
@@ -236,9 +256,9 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
         notifyItemChanged(position);
     }
 
-    private int getColorFromTemperature(String temperature) {
+    private int getColorFromTemperature(Double temperature) {
         int color = 0;
-        double temp = Double.valueOf(temperature);
+        double temp = temperature;
 
         if (temp > 20) {
             color = context.getResources().getColor(R.color.hot);

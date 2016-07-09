@@ -1,24 +1,23 @@
 package com.patrykkrawczyk.pogodynka.city_data;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import com.patrykkrawczyk.pogodynka.city_data.SingleHour.Conditions;
 
 /**
  * Created by Patryk Krawczyk on 07.07.2016.
  */
 public class SingleDay {
+
+    private Double average;
+    private Conditions averageConditions;
+
     private String day;
     private String month;
     private String year;
-    private String wunderAverage = "";
-    private String forecastIOAverage = "";
-    private String average = "";
+
     public List<SingleHour> hours = new ArrayList<>();
-
-
-    private SingleDay() {}
 
     public SingleDay(String day, String month, String year) {
         this.day   = day;
@@ -26,36 +25,29 @@ public class SingleDay {
         this.year  = year;
     }
 
-    public String getAverage() {
-        return String.format("%.2f", Double.valueOf(average));
-    }
 
-    public void setWunderAverage(String wunderAverage) {
-        this.wunderAverage = wunderAverage;
-        recalculateAverage();
-    }
 
-    public void setForecastIOAverage(String forecastIOAverage) {
-        this.forecastIOAverage = forecastIOAverage;
-        recalculateAverage();
-    }
-
-    private void recalculateAverage() {
+    public void calculateDayAverages() {
         double average = 0;
-        int counter = 0;
+        int[] averageCondition = new int[Conditions.values().length];
 
-        if (!wunderAverage.isEmpty()) {
-            average += Double.valueOf(wunderAverage);
-            counter++;
+        for (SingleHour hour : hours) {
+            average += Double.valueOf(hour.temperature);
+            averageCondition[hour.getConditions().ordinal()]++;
         }
 
-        if (!forecastIOAverage.isEmpty()) {
-            average += Double.valueOf(forecastIOAverage);
-            counter++;
+        average /= hours.size();
+        setAverage(average);
+
+        int maxIndex = 0;
+        for (int k = 0; k < averageCondition.length - 1; k++) {
+            if (averageCondition[k] < averageCondition[k+1]) maxIndex = k+1;
         }
 
-        this.average = String.valueOf(average/counter);
+        setAverageConditions(Conditions.values()[maxIndex]);
     }
+
+
 
     public String getDay() {
         String day = "";
@@ -78,7 +70,32 @@ public class SingleDay {
     }
 
     public String getDate() {
-        String date = day + "." + month;
+        String date = day + "." + String.format("%02d", Integer.valueOf(month)) + "." + year;;
         return date;
     }
+
+    public String getAverageTemperatureString() {
+        return String.format("%.2f", average);
+    }
+
+
+
+    public Double getAverageTemperature() {
+        return average;
+    }
+
+    public Conditions getAverageConditions() {
+        return averageConditions;
+    }
+
+    public void setAverageConditions(Conditions averageConditions) {
+        this.averageConditions = averageConditions;
+    }
+
+    public void setAverage(Double average) {
+        this.average = average;
+    }
+
+    private SingleDay() {}
+
 }

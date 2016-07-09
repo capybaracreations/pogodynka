@@ -4,7 +4,7 @@ package com.patrykkrawczyk.pogodynka.json.wunder;
 public class Temp {
 
     private String english;
-    private String metric;
+    private Double metric;
 
     /**
      * 
@@ -29,7 +29,7 @@ public class Temp {
      * @return
      *     The metric
      */
-    public String getMetric() {
+    public Double getMetric() {
         return metric;
     }
 
@@ -38,7 +38,7 @@ public class Temp {
      * @param metric
      *     The metric
      */
-    public void setMetric(String metric) {
+    public void setMetric(Double metric) {
         this.metric = metric;
     }
 

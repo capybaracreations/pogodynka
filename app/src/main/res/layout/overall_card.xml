@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:layout_weight="2"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -40,23 +40,48 @@
                     autofit:minTextSize="8sp"
                     android:text="Szczecin, Poland"
                     android:id="@+id/cityNameTextView"
-                    android:gravity="center_vertical"
+                    android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                <me.grantland.widget.AutofitTextView
-                    android:textColor="@color/cardTitleText"
-                    android:paddingRight="9dp"
-                    android:textSize="30sp"
-                    autofit:minTextSize="8sp"
-                    android:text="24°C"
-                    android:id="@+id/currentTemperatureTextView"
-                    android:gravity="center|right"
-                    android:singleLine="true"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+                    <Space
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:padding="4dp"
+                            android:src="@drawable/clear"
+                            android:id="@+id/currentConditionsImageView"
+                            android:scaleType="centerInside"
+                            android:gravity="center"
+                            android:layout_weight="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <me.grantland.widget.AutofitTextView
+                            android:textColor="@color/cardTitleText"
+                            android:paddingRight="9dp"
+                            android:textSize="30sp"
+                            autofit:minTextSize="8sp"
+                            android:text="24°C"
+                            android:id="@+id/currentTemperatureTextView"
+                            android:gravity="center|right"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
             <View
@@ -67,147 +92,136 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"/>
             <LinearLayout
+                android:paddingBottom="4dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:paddingBottom="9dp"
-                        android:layout_weight="1"
+                    <ImageView
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:src="@drawable/clear"
+                        android:id="@+id/firstWeatherCellConditions"
+                        android:scaleType="centerInside"
+                        android:gravity="center"
+                        android:layout_weight="6"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <me.grantland.widget.AutofitTextView
-                            android:textColor="@color/neutral"
-                            android:textSize="26sp"
-                            autofit:minTextSize="8sp"
-                            android:text="20°C"
-                            android:id="@+id/firstWeatherCellTemperature"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="20sp"
-                            autofit:minTextSize="8sp"
-                            android:text="MON"
-                            android:id="@+id/firstWeatherCellDay"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="16sp"
-                            autofit:minTextSize="8sp"
-                            android:text="01.07.2016"
-                            android:id="@+id/firstWeatherCellDate"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                    <View
-                        android:visibility="gone"
-                        android:layout_marginBottom="9dp"
-                        android:background="#000"
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:paddingBottom="9dp"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textColor="@color/neutral"
+                        android:textSize="26sp"
+                        autofit:minTextSize="8sp"
+                        android:text="20°C"
+                        android:id="@+id/firstWeatherCellTemperature"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <me.grantland.widget.AutofitTextView
-                            android:textColor="@color/cold"
-                            android:textSize="26sp"
-                            autofit:minTextSize="8sp"
-                            android:text="19°C"
-                            android:id="@+id/secondWeatherCellTemperature"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="20sp"
-                            autofit:minTextSize="8sp"
-                            android:text="TUE"
-                            android:id="@+id/secondWeatherCellDay"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="16sp"
-                            autofit:minTextSize="8sp"
-                            android:text="01.07.2016"
-                            android:id="@+id/secondWeatherCellDate"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                    <View
-                        android:visibility="gone"
-                        android:layout_marginBottom="9dp"
-                        android:background="#000"
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:paddingBottom="9dp"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textStyle="italic"
+                        android:textSize="16sp"
+                        autofit:minTextSize="8sp"
+                        android:text="01.07.2016"
+                        android:id="@+id/firstWeatherCellDate"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <me.grantland.widget.AutofitTextView
-
-                            android:textColor="@color/hot"
-                            android:textSize="26sp"
-                            autofit:minTextSize="8sp"
-                            android:text="24°C"
-                            android:id="@+id/thirdWeatherCellTemperature"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="20sp"
-                            autofit:minTextSize="8sp"
-                            android:text="WED"
-                            android:id="@+id/thirdWeatherCellDay"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <me.grantland.widget.AutofitTextView
-                            android:textStyle="italic"
-                            android:textSize="16sp"
-                            autofit:minTextSize="8sp"
-                            android:text="01.07.2016"
-                            android:id="@+id/thirdWeatherCellDate"
-                            android:gravity="center"
-                            android:singleLine="true"
-                            android:layout_weight="9"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:visibility="gone"
+                    android:layout_marginBottom="9dp"
+                    android:background="#000"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:src="@drawable/clear"
+                        android:id="@+id/secondWeatherCellConditions"
+                        android:scaleType="centerInside"
+                        android:gravity="center"
+                        android:layout_weight="6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textColor="@color/cold"
+                        android:textSize="26sp"
+                        autofit:minTextSize="8sp"
+                        android:text="19°C"
+                        android:id="@+id/secondWeatherCellTemperature"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textStyle="italic"
+                        android:textSize="16sp"
+                        autofit:minTextSize="8sp"
+                        android:text="01.07.2016"
+                        android:id="@+id/secondWeatherCellDate"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:visibility="gone"
+                    android:layout_marginBottom="9dp"
+                    android:background="#000"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:src="@drawable/clear"
+                        android:id="@+id/thirdWeatherCellConditions"
+                        android:scaleType="centerInside"
+                        android:gravity="center"
+                        android:layout_weight="6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textColor="@color/hot"
+                        android:textSize="26sp"
+                        autofit:minTextSize="8sp"
+                        android:text="24°C"
+                        android:id="@+id/thirdWeatherCellTemperature"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <me.grantland.widget.AutofitTextView
+                        android:textStyle="italic"
+                        android:textSize="16sp"
+                        autofit:minTextSize="8sp"
+                        android:text="01.07.2016"
+                        android:id="@+id/thirdWeatherCellDate"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_weight="9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

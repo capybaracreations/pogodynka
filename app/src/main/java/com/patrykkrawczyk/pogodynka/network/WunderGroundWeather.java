@@ -17,6 +17,6 @@ public interface WunderGroundWeather {
     String KEY = "37ada175c0113d52";
 
     // http://api.wunderground.com/api/37ada175c0113d52/hourly10day/q/37.776289,-122.395234.json
-    @GET("/api/{key}/hourly10day/q/{latitude},{longitude}.json")
-    Call<WunderHourlyResult> hourlyForecast (@Path("key") String key, @Path("latitude") String latitude, @Path("longitude") String longitude);
+    @GET("/api/"+KEY+"/hourly10day/q/{latitude},{longitude}.json")
+    Call<WunderHourlyResult> hourlyForecast (@Path("latitude") String latitude, @Path("longitude") String longitude);
 }
