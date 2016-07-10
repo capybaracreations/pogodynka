@@ -38,7 +38,7 @@
                                 android:paddingLeft="9dp"
                                 android:textSize="26sp"
                                 autofit:minTextSize="8sp"
-                                android:text="Szczecin"
+                                android:text="Szczecin, Poland"
                                 android:id="@+id/behindCityNameTextView"
                                 android:gravity="left|center_vertical"
                                 android:singleLine="true"

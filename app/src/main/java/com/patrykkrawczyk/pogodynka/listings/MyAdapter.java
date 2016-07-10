@@ -1,6 +1,7 @@
 package com.patrykkrawczyk.pogodynka.listings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -159,21 +160,21 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             baseViewHolder.listingButtonInterface = baseViewHolder.city.listingButtonsClickHandler;
 
             SingleDay day = baseViewHolder.city.data.averagedDays.get(0);
-            int color = getColorFromTemperature(day.getAverageTemperature());
+            int color = getColorFromTemperature(context, day.getAverageTemperature());
             baseViewHolder.behindFirstCellDay.setTextColor(color);
             baseViewHolder.behindFirstCellDate.setTextColor(color);
             baseViewHolder.behindFirstCellDay.setText(day.getDay());
             baseViewHolder.behindFirstCellDate.setText(day.getDate());
 
             day = baseViewHolder.city.data.averagedDays.get(1);
-            color = getColorFromTemperature(day.getAverageTemperature());
+            color = getColorFromTemperature(context, day.getAverageTemperature());
             baseViewHolder.behindSecondCellDay.setTextColor(color);
             baseViewHolder.behindSecondCellDate.setTextColor(color);
             baseViewHolder.behindSecondCellDay.setText(day.getDay());
             baseViewHolder.behindSecondCellDate.setText(day.getDate());
 
             day = baseViewHolder.city.data.averagedDays.get(2);
-            color = getColorFromTemperature(day.getAverageTemperature());
+            color = getColorFromTemperature(context, day.getAverageTemperature());
             baseViewHolder.behindThirdCellDay.setTextColor(color);
             baseViewHolder.behindThirdCellDate.setTextColor(color);
             baseViewHolder.behindThirdCellDay.setText(day.getDay());
@@ -185,25 +186,25 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
                 viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(viewHolder.city.data.currentConditions));
 
                 viewHolder.currentTemperature.setText(String.format("%.0f", baseViewHolder.city.data.currentTemperature) + "°C");
-                color = getColorFromTemperature(baseViewHolder.city.data.currentTemperature);
+                color = getColorFromTemperature(context, baseViewHolder.city.data.currentTemperature);
                 viewHolder.currentTemperature.setTextColor(color);
 
                 day = baseViewHolder.city.data.averagedDays.get(0);
-                color = getColorFromTemperature(day.getAverageTemperature());
+                color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.firstWeatherCellTemperature.setTextColor(color);
                 viewHolder.firstWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
                 viewHolder.firstWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.firstWeatherCellDate.setText(day.getDate());
 
                 day = baseViewHolder.city.data.averagedDays.get(1);
-                color = getColorFromTemperature(day.getAverageTemperature());
+                color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.secondWeatherCellTemperature.setTextColor(color);
                 viewHolder.secondWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
                 viewHolder.secondWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.secondWeatherCellDate.setText(day.getDate());
 
                 day = baseViewHolder.city.data.averagedDays.get(2);
-                color = getColorFromTemperature(day.getAverageTemperature());
+                color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.thirdWeatherCellTemperature.setTextColor(color);
                 viewHolder.thirdWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
                 viewHolder.thirdWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
@@ -216,10 +217,8 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
                 viewHolder.cityName.setText(baseViewHolder.city.getCityName());
                 viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
                 viewHolder.currentTemperature.setText(day.getAverageTemperatureString() + "°C");
-                color = getColorFromTemperature(day.getAverageTemperature());
+                color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.currentTemperature.setTextColor(color);
-
-
             }
         }
 
@@ -265,7 +264,7 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
         notifyItemChanged(position);
     }
 
-    private int getColorFromTemperature(Double temperature) {
+    public static int getColorFromTemperature(Context context, Double temperature) {
         int color = 0;
         double temp = temperature;
 
