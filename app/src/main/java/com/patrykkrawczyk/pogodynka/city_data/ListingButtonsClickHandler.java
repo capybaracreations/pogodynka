@@ -3,6 +3,7 @@ package com.patrykkrawczyk.pogodynka.city_data;
 import android.view.View;
 
 import com.patrykkrawczyk.pogodynka.listings.BehindButtonsInterface;
+import com.patrykkrawczyk.pogodynka.listings.DetailsButtonsInterface;
 import com.patrykkrawczyk.pogodynka.listings.ListingButtonInterface;
 import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder.Status;
 

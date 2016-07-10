@@ -6,17 +6,16 @@
     android:gravity="center_horizontal"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:background="@drawable/rect_round_corners_bck">
+    android:background="@drawable/tooltip_background">
     <TextView
+        android:text="13.33"
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:layout_marginRight="5dp"
-        android:layout_marginEnd="5dp">
+        android:textColor="#ffffff">
     </TextView>
     <TextView
         android:id="@+id/cross"
@@ -27,16 +26,18 @@
         android:layout_toEndOf="@+id/value"
         android:gravity="center"
         android:textSize="13sp"
-        android:textColor="#FF734511"
-        android:text="x"
+        android:textColor="#FFF"
+        android:text="°C"
         android:layout_marginRight="5dp"
         android:layout_marginEnd="5dp">
     </TextView>
     <ImageView
+        android:id="@+id/conditionsImageView"
+        android:tint="#fff"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/cross"
         android:layout_toEndOf="@+id/cross"
-        android:src="@drawable/ic_bike"/>
+        android:src="@drawable/clear"/>
 </RelativeLayout>

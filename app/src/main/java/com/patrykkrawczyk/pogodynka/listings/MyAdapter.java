@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.db.chart.view.LineChartView;
 import com.malinskiy.superrecyclerview.swipe.BaseSwipeAdapter;
 import com.patrykkrawczyk.pogodynka.CitiesList;
 import com.patrykkrawczyk.pogodynka.R;
@@ -41,13 +42,33 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
     }
 
     public static class DetailsViewHolder extends BaseViewHolder {
-        @BindView(R.id.cityNameTextView)             AutofitTextView cityName;
-        @BindView(R.id.currentConditionsImageView)   ImageView       currentConditions;
-        @BindView(R.id.currentTemperatureTextView)   AutofitTextView currentTemperature;
+        @BindView(R.id.cityNameTextView)    AutofitTextView cityName;
+        @BindView(R.id.chartView)           LineChartView lineChartView;
+
+        private DetailsButtonsInterface     detailsButtonsInterface;
+        private ChartHandler                chartHandler;
 
         public DetailsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            chartHandler = new ChartHandler(lineChartView);
+            detailsButtonsInterface = chartHandler;
+        }
+
+        @Optional @OnClick (R.id.leftButton)
+        public void onClickLeftButton(View view) {
+            detailsButtonsInterface.onClickLeftButton(view);
+        }
+
+        @Optional @OnClick (R.id.rightButton)
+        public void onClickRightButton(View view) {
+            detailsButtonsInterface.onClickRightButton(view);
+        }
+
+        @Optional @OnClick (R.id.backButton)
+        public void onClickBackButton(View view) {
+            chartHandler.clear();
+            city.setStatus(SingleCityHolder.Status.OVERALL);
         }
     }
 
@@ -183,7 +204,7 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
             if (baseViewHolder instanceof OverallViewHolder) {
                 OverallViewHolder viewHolder = (OverallViewHolder) baseViewHolder;
                 viewHolder.cityName.setText(baseViewHolder.city.getCityName());
-                viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(viewHolder.city.data.currentConditions));
+                viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(context, viewHolder.city.data.currentConditions));
 
                 viewHolder.currentTemperature.setText(String.format("%.0f", baseViewHolder.city.data.currentTemperature) + "°C");
                 color = getColorFromTemperature(context, baseViewHolder.city.data.currentTemperature);
@@ -193,38 +214,36 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
                 color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.firstWeatherCellTemperature.setTextColor(color);
                 viewHolder.firstWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
-                viewHolder.firstWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
+                viewHolder.firstWeatherCellConditions.setImageDrawable(getDrawableFromConditions(context, day.getAverageConditions()));
                 viewHolder.firstWeatherCellDate.setText(day.getDate());
 
                 day = baseViewHolder.city.data.averagedDays.get(1);
                 color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.secondWeatherCellTemperature.setTextColor(color);
                 viewHolder.secondWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
-                viewHolder.secondWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
+                viewHolder.secondWeatherCellConditions.setImageDrawable(getDrawableFromConditions(context, day.getAverageConditions()));
                 viewHolder.secondWeatherCellDate.setText(day.getDate());
 
                 day = baseViewHolder.city.data.averagedDays.get(2);
                 color = getColorFromTemperature(context, day.getAverageTemperature());
                 viewHolder.thirdWeatherCellTemperature.setTextColor(color);
                 viewHolder.thirdWeatherCellTemperature.setText(day.getAverageTemperatureString() + "°C");
-                viewHolder.thirdWeatherCellConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
+                viewHolder.thirdWeatherCellConditions.setImageDrawable(getDrawableFromConditions(context, day.getAverageConditions()));
                 viewHolder.thirdWeatherCellDate.setText(day.getDate());
 
             } else {
                 DetailsViewHolder viewHolder = (DetailsViewHolder) baseViewHolder;
                 day = baseViewHolder.city.data.averagedDays.get(baseViewHolder.city.dayDetailsPicked);
 
+                viewHolder.chartHandler.initializeHours(day.hours);
                 viewHolder.cityName.setText(baseViewHolder.city.getCityName());
-                viewHolder.currentConditions.setImageDrawable(getDrawableFromConditions(day.getAverageConditions()));
-                viewHolder.currentTemperature.setText(day.getAverageTemperatureString() + "°C");
-                color = getColorFromTemperature(context, day.getAverageTemperature());
-                viewHolder.currentTemperature.setTextColor(color);
+
             }
         }
 
     }
 
-    private Drawable getDrawableFromConditions(SingleHour.Conditions conditions) {
+    public static Drawable getDrawableFromConditions(Context context, SingleHour.Conditions conditions) {
         int resource;
 
         switch (conditions) {

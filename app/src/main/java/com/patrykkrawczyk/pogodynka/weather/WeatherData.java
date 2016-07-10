@@ -101,10 +101,17 @@ public class WeatherData {
                 SingleHour fHour = forecastIO.hours.get(m);
 
                 Double averageTemperature = (wHour.temperature + fHour.temperature) / 2;
-                averageCondition[wHour.getConditions().ordinal()]++;
-                averageCondition[fHour.getConditions().ordinal()]++;
+                SingleHour.Conditions wConditions = wHour.getConditions();
+                SingleHour.Conditions fConditions = fHour.getConditions();
+                averageCondition[wConditions.ordinal()]++;
+                averageCondition[fConditions.ordinal()]++;
 
                 SingleHour hour = new SingleHour(String.valueOf(m), averageTemperature);
+                if (wConditions.ordinal() < fConditions.ordinal())
+                    hour.setConditions(wConditions);
+                else
+                    hour.setConditions(fConditions);
+
 
                 day.hours.add(hour);
             }

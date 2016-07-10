@@ -55,13 +55,21 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
+                    <ImageView
+                        android:layout_weight="1"
+                        android:id="@+id/backButton"
+                        android:tint="@color/colorPrimary"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                     <Space
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                     <ImageView
                         android:layout_weight="1"
-                        android:id="@+id/minusButton"
+                        android:id="@+id/leftButton"
                         android:tint="@color/colorPrimary"
                         android:scaleType="centerInside"
                         android:src="@drawable/left"
@@ -73,7 +81,7 @@
                         android:layout_height="match_parent"/>
                     <ImageView
                         android:layout_weight="1"
-                        android:id="@+id/plusButton"
+                        android:id="@+id/rightButton"
                         android:tint="@color/colorPrimary"
                         android:scaleType="centerInside"
                         android:src="@drawable/right"
