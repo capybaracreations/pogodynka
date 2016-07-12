@@ -4,6 +4,7 @@ import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
 import com.patrykkrawczyk.pogodynka.city_data.SingleDay;
 import com.patrykkrawczyk.pogodynka.city_data.SingleHour;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,12 +13,12 @@ import java.util.List;
 /**
  * Created by Patryk Krawczyk on 09.07.2016.
  */
-public class WeatherData {
+public class WeatherData implements Serializable {
 
     private SingleCityHolder singleCityHolder;
 
-    public WunderHourlyResultHandler wunderHandler = new WunderHourlyResultHandler(this);
-    public ForecastIOHourlyResultHandler forecastIOHandler = new ForecastIOHourlyResultHandler(this);
+    public WunderHourlyResultHandler wunderHandler;
+    public ForecastIOHourlyResultHandler forecastIOHandler;
 
     public Double currentTemperature;
     public Double wunderCurrentTemperature;
@@ -31,6 +32,7 @@ public class WeatherData {
     public List<SingleDay> forecastIODays = new ArrayList<>();
 
     public WeatherData(SingleCityHolder singleCityHolder) {
+        this();
         this.singleCityHolder = singleCityHolder;
     }
 
@@ -51,16 +53,16 @@ public class WeatherData {
                 recalculateCurrentTemperature();
                 recalculateCurrentConditions();
                 recalculateDailyAverages();
-            } else if (wunderHandler.populated && !wunderHandler.refreshing) {
+            } else if (wunderHandler.populated) {
                 averagedDays = wunderDays;
                 currentTemperature = wunderCurrentTemperature;
                 currentConditions = wunderCurrentConditions;
-            } else if (forecastIOHandler.populated && !forecastIOHandler.refreshing) {
+            } else if (forecastIOHandler.populated) {
                 averagedDays = forecastIODays;
                 currentTemperature = forecastIOCurrentTemperature;
                 currentConditions = forecastIOCurrentConditions;
             } else {
-                singleCityHolder.setStatus(SingleCityHolder.Status.NEW); // TODO: add remove state and dispose
+                singleCityHolder.setStatus(SingleCityHolder.Status.DELETE); // TODO: add remove state and dispose
                 return;
             }
 
@@ -134,10 +136,13 @@ public class WeatherData {
 
     public void updateFromApi() {
         wunderHandler.updateFromApi();
-        //forecastIOHandler.updateFromApi();
+        forecastIOHandler.updateFromApi();
     }
 
-    private WeatherData() {}
+    private WeatherData() {
+        wunderHandler = new WunderHourlyResultHandler(this);
+        forecastIOHandler = new ForecastIOHourlyResultHandler(this);
+    }
 
     public String getLongitude() {
         return singleCityHolder.getLongitude();

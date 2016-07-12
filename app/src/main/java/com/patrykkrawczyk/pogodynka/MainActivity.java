@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     private LayoutManager layoutManager;
     private SweetSheet autoCompleteDialog;
 
-    private CitiesList cities = new CitiesList();
+    private CitiesList cities;
     private ArrayList<MenuEntity> autoCompleteListings = new ArrayList<>();
     private AutoCompleteResult autoCompleteLastResult;
 
@@ -73,10 +73,18 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
 
         ButterKnife.bind(this);
 
+        loadIfSaveExists();
+
         initializeAutoCompleteDialog();
         initializeRecyclerView();
 
         searchButton.setMode(ActionProcessButton.Mode.ENDLESS);
+    }
+
+    private void loadIfSaveExists() {
+        cities = SaveLoadManager.loadCities(this);
+        if (cities == null) cities = new CitiesList();
+        else cities.reinitialize();
     }
 
     private void initializeRecyclerView() {

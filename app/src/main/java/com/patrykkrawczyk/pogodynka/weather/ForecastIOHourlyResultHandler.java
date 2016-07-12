@@ -7,6 +7,7 @@ import com.patrykkrawczyk.pogodynka.json.forecastio.Datum;
 import com.patrykkrawczyk.pogodynka.json.forecastio.ForecastIOResult;
 import com.patrykkrawczyk.pogodynka.network.ForecastIO;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Patryk Krawczyk on 08.07.2016.
  */
-public class ForecastIOHourlyResultHandler implements Callback<ForecastIOResult> {
+public class ForecastIOHourlyResultHandler implements Callback<ForecastIOResult>, Serializable {
 
 
     public boolean refreshing = false;

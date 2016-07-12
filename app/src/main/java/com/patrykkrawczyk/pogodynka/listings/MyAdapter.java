@@ -20,6 +20,8 @@ import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
 import com.patrykkrawczyk.pogodynka.city_data.SingleDay;
 import com.patrykkrawczyk.pogodynka.city_data.SingleHour;
 
+import java.io.Serializable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -138,13 +140,13 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
 
     }
 
-    private Activity context;
+    public Activity context;
     private CitiesList cities;
 
     public MyAdapter(Activity context, CitiesList cities) {
         this.context = context;
         this.cities = cities;
-        cities.adapter = this;
+        cities.setAdapter(this);
     }
 
     @Override
@@ -266,7 +268,7 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
         View v = snack.getView();
         v.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         ((TextView) v.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
-        ((TextView) v.findViewById(android.support.design.R.id.snackbar_action)).setTextColor(context.getResources().getColor(R.color.rightIcon));
+        ((TextView) v.findViewById(android.support.design.R.id.snackbar_action)).setTextColor(context.getResources().getColor(R.color.hot));
 
         snack.show();
     }

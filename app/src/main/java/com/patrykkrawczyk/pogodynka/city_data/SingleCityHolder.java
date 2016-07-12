@@ -4,17 +4,19 @@ import com.patrykkrawczyk.pogodynka.CitiesList;
 import com.patrykkrawczyk.pogodynka.json.autocomplete.RESULT;
 import com.patrykkrawczyk.pogodynka.weather.WeatherData;
 
+import java.io.Serializable;
+
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
  */
-public class SingleCityHolder {
+public class SingleCityHolder implements Serializable {
 
-    public int dayDetailsPicked = 0;
+    transient public int dayDetailsPicked = 0;
     public CitiesList parent;
     public ListingButtonsClickHandler listingButtonsClickHandler = new ListingButtonsClickHandler(this);
 
-    public enum Status { NEW, UPDATING, OVERALL, DETAILS };
-    private Status status = Status.NEW;
+    public enum Status {DELETE, UPDATING, OVERALL, DETAILS };
+    private Status status = Status.DELETE;
 
     private String name;
     private String latitude;
@@ -25,6 +27,9 @@ public class SingleCityHolder {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+
+        status = Status.UPDATING;
+        data.updateFromApi();
     }
 
     public SingleCityHolder(String name, double latitude, double longitude) {
@@ -37,10 +42,7 @@ public class SingleCityHolder {
 
     public void update() {
         setStatus(Status.UPDATING);
-        parent.adapter.displaySnackbar("Refreshing " + getCityName() + ".", null, null);
-
         data.updateFromApi();
-        //forecastIOHandler.updateFromApi();
     }
 
     public void setStatus(Status status) {
@@ -66,7 +68,7 @@ public class SingleCityHolder {
 
 
     private void notifyAdapter() {
-        parent.adapter.notifyItemChanged(this);
+        parent.notifyItemChanged(this);
     }
 
 

@@ -139,7 +139,7 @@ public class ChartHandler implements DetailsButtonsInterface, OnEntryClickListen
     }
 
     private float roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        DecimalFormat twoDForm = new DecimalFormat("#");
         return Float.valueOf(twoDForm.format(d));
     }
 

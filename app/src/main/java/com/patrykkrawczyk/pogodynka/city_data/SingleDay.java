@@ -1,5 +1,6 @@
 package com.patrykkrawczyk.pogodynka.city_data;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ import com.patrykkrawczyk.pogodynka.city_data.SingleHour.Conditions;
 /**
  * Created by Patryk Krawczyk on 07.07.2016.
  */
-public class SingleDay {
+public class SingleDay implements Serializable {
 
     private Double average;
     private Conditions averageConditions;

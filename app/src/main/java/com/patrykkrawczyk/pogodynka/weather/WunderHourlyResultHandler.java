@@ -8,6 +8,7 @@ import com.patrykkrawczyk.pogodynka.json.wunder.HourlyForecast;
 import com.patrykkrawczyk.pogodynka.json.wunder.WunderHourlyResult;
 import com.patrykkrawczyk.pogodynka.network.WunderGroundWeather;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Patryk Krawczyk on 08.07.2016.
  */
-public class WunderHourlyResultHandler implements Callback<WunderHourlyResult> {
+public class WunderHourlyResultHandler implements Callback<WunderHourlyResult>, Serializable {
 
     public boolean refreshing = false;
     public boolean populated = false;
