@@ -8,7 +8,7 @@
 
 ### FEATURES
 ------
-|Auto Complete Adding|24H Temperature + Conditions|Swipe Layout Options|Autocomplete|
+|Adding|24H Temperature + Conditions|Swipe Layout Options|Autocomplete|
 |:-------------:|:-------------:|:-------------:|:-------------:|
 |![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/adding.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/details.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/options.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/autocomplete.gif)|
 
