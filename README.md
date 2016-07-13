@@ -8,10 +8,10 @@
 
 ### FEATURES
 ------
-|Auto Complete Adding|24H Temperature + Conditions|Swipe Layout Options|
-|:-------------:|:-------------:|:-------------:|
-|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/adding.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/details.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/options.gif)|
-
-|Persistence (Serialization)| Animated RecyclerView|Name Validation + Swipe To Refresh All|
+|Auto Complete Adding|24H Temperature + Conditions|Swipe Layout Options|Autocomplete|
 |:-------------:|:-------------:|:-------------:|:-------------:|
-|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/persistence.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/recyclerview.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/validation_refreshall.gif)|
+|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/adding.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/details.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/options.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/autocomplete.gif)|
+
+|Persistence (Serialization)| Animated RecyclerView|Name Validation + Swipe To Refresh All|Automatic Synchronization|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/persistence.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/recyclerview.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/validation_refreshall.gif)|![Alt Text](https://github.com/capybaracreations/pogodynka/blob/master/gifs/synchronization.gif)|
