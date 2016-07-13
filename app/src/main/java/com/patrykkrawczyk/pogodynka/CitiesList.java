@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Patryk Krawczyk on 03.07.2016.
  */
-public class CitiesList extends ArrayList<SingleCityHolder> {
+public class CitiesList extends ArrayList<SingleCityHolder> implements OnSynchronizeRefresh {
 
     transient private MyAdapter adapter;
 
@@ -69,8 +69,7 @@ public class CitiesList extends ArrayList<SingleCityHolder> {
 
     public void notifyItemChanged(SingleCityHolder singleCityHolder) {
         adapter.notifyItemChanged(singleCityHolder);
-        //if (singleCityHolder.getStatus() != SingleCityHolder.Status.UPDATING)
-            saveForPersistence();
+        saveForPersistence();
     }
 
     public void displaySnackbar(String message) {
@@ -79,5 +78,10 @@ public class CitiesList extends ArrayList<SingleCityHolder> {
 
     public void reinitialize() {
 
+    }
+
+    @Override
+    public void OnRefresh() {
+        if (size() > 0) updateAll();
     }
 }
