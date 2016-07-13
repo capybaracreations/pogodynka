@@ -45,8 +45,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainActivity extends AppCompatActivity implements Callback<AutoCompleteResult>, SweetSheet.OnMenuItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-
-
     private final int ANIMATION_SPEED = 500;
 
     @BindView(R.id.recyclerView) SuperRecyclerView recyclerView;
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
     private ArrayList<MenuEntity> autoCompleteListings = new ArrayList<>();
     private AutoCompleteResult autoCompleteLastResult;
 
+    private Synchronizer synchronizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
 
         initializeAutoCompleteDialog();
         initializeRecyclerView();
+
+        synchronizer = Synchronizer.getInstance();
+        synchronizer.setRefresher(cities);
 
         searchButton.setMode(ActionProcessButton.Mode.ENDLESS);
     }
@@ -201,8 +203,6 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
 
         searchBox.setText("");
         searchButton.setProgress(0);
-        //adapter.notifyItemInserted(newPosition);
-        //recyclerView.smoothScrollToPosition(newPosition);
 
         return true;
     }
@@ -215,5 +215,23 @@ public class MainActivity extends AppCompatActivity implements Callback<AutoComp
         adapter.notifyItemRangeChanged(0, cities.size());
         adapter.displaySnackbar("Refreshing all.", null, null);
         recyclerView.setRefreshing(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        synchronizer.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        synchronizer.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        synchronizer.quit();
     }
 }

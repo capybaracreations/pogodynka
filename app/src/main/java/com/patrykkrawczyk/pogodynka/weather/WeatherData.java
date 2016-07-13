@@ -135,8 +135,8 @@ public class WeatherData implements Serializable {
 
 
     public void updateFromApi() {
-        wunderHandler.updateFromApi();
-        forecastIOHandler.updateFromApi();
+        if (!wunderHandler.refreshing) wunderHandler.updateFromApi();
+        if (!forecastIOHandler.refreshing) forecastIOHandler.updateFromApi();
     }
 
     private WeatherData() {

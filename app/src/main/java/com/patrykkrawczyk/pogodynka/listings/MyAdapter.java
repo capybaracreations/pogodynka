@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.db.chart.view.LineChartView;
 import com.malinskiy.superrecyclerview.swipe.BaseSwipeAdapter;
 import com.patrykkrawczyk.pogodynka.CitiesList;
+import com.patrykkrawczyk.pogodynka.MainActivity;
 import com.patrykkrawczyk.pogodynka.R;
 import com.patrykkrawczyk.pogodynka.city_data.SingleCityHolder;
 import com.patrykkrawczyk.pogodynka.city_data.SingleDay;
@@ -281,8 +282,13 @@ public class MyAdapter extends BaseSwipeAdapter<MyAdapter.BaseViewHolder> {
     }
 
     public void notifyItemChanged(SingleCityHolder cityHolder) {
-        int position = cities.indexOf(cityHolder);
-        notifyItemChanged(position);
+        final int position = cities.indexOf(cityHolder);
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyItemChanged(position);
+            }
+        });
     }
 
     public static int getColorFromTemperature(Context context, Double temperature) {
